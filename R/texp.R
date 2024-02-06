@@ -52,6 +52,11 @@ get_msten <- function(...) {
   data.frame(x = sum(rand_sample), y = max(rand_sample))
 }
 
+get_tetlg <- function(...) {
+  rand_sample <- rexp(...)
+  data.frame(x = sum(rand_sample), y = max(rand_sample))
+}
+
 #' MSTE-N random vector generator
 #'
 #' @param n_dist The counting distribution which N from the MSTE-N vector will
@@ -79,3 +84,67 @@ rmsten <- function(n_dist, rate = 1, a = 0, b, ...) {
   rand_sample[['N']] <- event_len
   rand_sample
 }
+
+#' TETLG random vector generator
+#'
+#' @param n_dist The counting distribution which N from the TETLG vector will
+#' be drawn. The number of random variables drawn from this distribution 
+#' determines the number of TETLG random vectors drawn.
+#' @param rate Single value specifying the rate.
+#' @param ... The named parameters required for distribution supplied to 
+#' `n_dist`.
+#'
+#' @return Numeric vector
+#' @export
+#'
+#' @examples
+#' 
+#' rmsten(n_dist = rgeom, rate = 2, p = 0.25, n = 6)
+
+rtetlg <- function(n_dist, rate = 1, ...) {
+  event_len <- n_dist(...)
+  rand_sample <- do.call(
+    rbind.data.frame,
+    lapply(event_len, get_tetlg, rate)
+  )
+  rand_sample[['N']] <- event_len
+  rand_sample
+}
+
+#' Simulate Geometric Distribution with Modified Probability of Success
+#' 
+#' @param n number of trials to simulate
+#' @param p probability of success in each trial (0 <= p < 1)
+#' @param success logical indicating whether or not to use a modified version of
+#' the geometric distribution that returns ceiling(log(runif())/log(1-p)) 
+#' instead of rgeom() when TRUE. Default is TRUE.
+#' @return A vector of length n with random numbers drawn from the geometric 
+#' distribution with probability p if success = FALSE, or modified geometric
+#' distribution as described above otherwise. 
+#' @export
+#' 
+#' @examples 
+#' 
+#' simulate 100 trials with a probability of success of .5 (p=.5)
+#' sim_geom <- r_geom(n = 100, p = .5, success=TRUE)
+#' print(table(sim_geom)) # display the results as a table to see how many times
+#' each outcome occurs.
+#' simulate 100 trials with standard geometric distribution (p=.5)
+#' sim_standard <- r_geom(n = 100, p = .5, success=FALSE)
+#' print(table(sim_standard)) # display the results as a table to see how many
+#' times each outcome occurs.
+
+
+r_geom <- function(n,p, success = TRUE, ...) {
+  if (success) {
+    ceiling(log(runif(n))/log(1-p))
+  } else {
+    rgeom(n, prob = p)
+  }
+}
+
+
+
+
+
+
