@@ -53,7 +53,7 @@ get_msten <- function(...) {
 }
 
 get_tetlg <- function(...) {
-  rand_sample <- rexp(...)
+  rand_sample <- stats::rexp(...)
   data.frame(x = sum(rand_sample), y = max(rand_sample))
 }
 
@@ -99,7 +99,7 @@ rmsten <- function(n_dist, rate = 1, a = 0, b, ...) {
 #'
 #' @examples
 #' 
-#' rmsten(n_dist = rgeom, rate = 2, p = 0.25, n = 6)
+#' rtetlg(n_dist = rgeom, rate = 2, p = 0.25, n = 6)
 
 rtetlg <- function(n_dist, rate = 1, ...) {
   event_len <- n_dist(...)
@@ -125,21 +125,14 @@ rtetlg <- function(n_dist, rate = 1, ...) {
 #' 
 #' @examples 
 #' 
-#' simulate 100 trials with a probability of success of .5 (p=.5)
 #' sim_geom <- r_geom(n = 100, p = .5, success=TRUE)
-#' print(table(sim_geom)) # display the results as a table to see how many times
-#' each outcome occurs.
-#' simulate 100 trials with standard geometric distribution (p=.5)
-#' sim_standard <- r_geom(n = 100, p = .5, success=FALSE)
-#' print(table(sim_standard)) # display the results as a table to see how many
-#' times each outcome occurs.
 
 
-r_geom <- function(n,p, success = TRUE, ...) {
+r_geom <- function(n,p, success = TRUE) {
   if (success) {
-    ceiling(log(runif(n))/log(1-p))
+    ceiling(log(stats::runif(n))/log(1-p))
   } else {
-    rgeom(n, prob = p)
+    stats::rgeom(n, prob = p)
   }
 }
 

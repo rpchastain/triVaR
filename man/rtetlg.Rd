@@ -24,5 +24,5 @@ TETLG random vector generator
 }
 \examples{
 
-rmsten(n_dist = rgeom, rate = 2, p = 0.25, n = 6)
+rtetlg(n_dist = rgeom, rate = 2, p = 0.25, n = 6)
 }

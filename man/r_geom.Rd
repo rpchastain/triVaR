@@ -4,7 +4,7 @@
 \alias{r_geom}
 \title{Simulate Geometric Distribution with Modified Probability of Success}
 \usage{
-r_geom(n, p, success = TRUE, ...)
+r_geom(n, p, success = TRUE)
 }
 \arguments{
 \item{n}{number of trials to simulate}
@@ -25,12 +25,5 @@ Simulate Geometric Distribution with Modified Probability of Success
 }
 \examples{
 
-simulate 100 trials with a probability of success of .5 (p=.5)
 sim_geom <- r_geom(n = 100, p = .5, success=TRUE)
-print(table(sim_geom)) # display the results as a table to see how many times
-each outcome occurs.
-simulate 100 trials with standard geometric distribution (p=.5)
-sim_standard <- r_geom(n = 100, p = .5, success=FALSE)
-print(table(sim_standard)) # display the results as a table to see how many
-times each outcome occurs.
 }
