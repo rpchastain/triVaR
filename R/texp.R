@@ -182,6 +182,8 @@ rate_mle <- function(rate, b, samp) {
 #' @return The estimated rate parameter as a single value or a warning message 
 #' if no solution is found within the specified interval and number of 
 #' optimization tries.
+#' 
+#' @export
 #'
 #' @examples \dontrun{
 #' rate_estimator(rate_interval = c(-3, 4), optim_tries = 50)

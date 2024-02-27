@@ -1,7 +1,7 @@
 Package: triVaR
 Type: Package
 Title: Trivariate Events
-Version: 0.1.2
+Version: 0.1.3
 Author: Robert Chastain
 Maintainer: Robert Chastain <rpchastain@proton.me>
 Description: Provides helper functions to explore Trivariate Events. This package primarily focuses on the sum and maximum of events with an Exponential or Truncated Exponential distribution.
