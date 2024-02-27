@@ -33,7 +33,7 @@ inv_texp <- function(x, rate = 1, a = 0, b) {
 #' rtexp(5, b = 6)
 #' rtexp(2, rate = -1, a = 2, b = 6)
 rtexp <- function(n, rate = 1, a = 0, b) {
-  u <- stats::runif(n)
+  u <- runif(n)
   inv_texp(u, rate, a, b)
 }
 
@@ -48,12 +48,12 @@ rtexp <- function(n, rate = 1, a = 0, b) {
 #'
 #' @examples get_msten(n = 4, rate = -1, b = 6)
 get_msten <- function(...) {
-  rand_sample <- triVaR::rtexp(...)
+  rand_sample <- rtexp(...)
   data.frame(x = sum(rand_sample), y = max(rand_sample))
 }
 
 get_tetlg <- function(...) {
-  rand_sample <- stats::rexp(...)
+  rand_sample <- rexp(...)
   data.frame(x = sum(rand_sample), y = max(rand_sample))
 }
 
@@ -130,9 +130,94 @@ rtetlg <- function(n_dist, rate = 1, ...) {
 
 r_geom <- function(n,p, success = TRUE) {
   if (success) {
-    ceiling(log(stats::runif(n))/log(1-p))
+    ceiling(log(runif(n))/log(1-p))
   } else {
-    stats::rgeom(n, prob = p)
+    rgeom(n, prob = p)
+  }
+}
+
+#' @title Rate Maximum Likelihood Estimation (MLE) Function This function 
+#' calculates the MLE for the rate parameter of the MSTE-N 
+#' distribution. This function has no analytical solution so numerical methods
+#' are required to find an approximate solution.
+#' 
+#' @param rate The rate parameter of a Truncated Exponential distribution.
+#' @param b The upper truncation parameter.
+#' @param samp A data frame containing two columns: "N" (typically the duration
+#' of the Trivariate Event) and "x" (the sum of the values measured during the
+#' Trivariate Event).
+#'
+#' @return The estimate of the rate parameter.
+#' @export
+#'
+#' @examples \dontrun{
+#' rate_mle(
+#'   rate = 0.5,
+#'   b = 100, 
+#'   samp = data.frame(
+#'     N = c(rep(20, 10), rep(30, 10)),
+#'     x = rnorm(20)
+#'     )
+#'   )
+#'}
+
+
+rate_mle <- function(rate, b, samp) {
+  first <- mean(samp$N)/rate
+  second <- mean(samp$x)
+  third <- mean(samp$N) * b /(exp(rate * b) - 1)
+  abs(first - second - third)
+}
+
+#' @title Function to optimize the `rate_mle()` function. This is a convenience
+#' function  which use the stats `R` function `optimize()`
+#' to numerically find the MLE of the MSTE-N distribution.
+#' 
+#' @param rate_interval Initial interval for estimating the rate parameter.
+#' Defaults to c(-5, 5).
+#' @param optim_tries Maximum number of optimization attempts. Defaults to 25.
+#' @param b The upper truncation parameter to pass to `rate_mle()`.
+#' @param samp The data sample to pass to `rate_mle()`.
+#'
+#' @return The estimated rate parameter as a single value or a warning message 
+#' if no solution is found within the specified interval and number of 
+#' optimization tries.
+#'
+#' @examples \dontrun{
+#' rate_estimator(rate_interval = c(-3, 4), optim_tries = 50)
+#' }
+
+rate_estimator <- function(
+    rate_interval = c(-5, 5), optim_tries = 25,
+    b, samp
+) {
+  
+  while (optim_tries > 0) {
+    beta_hat <- optimize(
+      rate_mle, b = b, samp = samp,
+      interval = rate_interval, maximum = FALSE
+    )$minimum
+    
+    beta_edges <- abs(beta_hat - rate_interval)
+    if (any(abs(beta_hat - rate_interval) < 1e-4)) {
+      rate_interval <- c(beta_hat - 2, beta_hat + 2)
+      optim_tries <- optim_tries - 1
+      no_solution <- TRUE
+    } else {
+      optim_tries <- 0
+      no_solution <- FALSE
+    }
+  }
+  if (no_solution) {
+      warning_msg <- sprintf(
+        "Convergence for estimate of rate not found in %s rounds of 
+         optimization. Please change the rate_interval or increase the number
+         of optimization rounds. Final estimate for the rate: %s",
+        optim_tries, beta_hat
+      )
+      warning(strwrap(warning_msg))
+  } else {
+    beta_hat
   }
 }
 
