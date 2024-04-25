@@ -111,13 +111,10 @@ rtetlg <- function(n_dist, rate = 1, ...) {
   rand_sample
 }
 
-#' Simulate Geometric Distribution with Modified Probability of Success
+#' Simulate Geometric Distribution defined in n = 1, 2,...
 #' 
 #' @param n number of trials to simulate
-#' @param p probability of success in each trial (0 <= p < 1)
-#' @param success logical indicating whether or not to use a modified version of
-#' the geometric distribution that returns ceiling(log(runif())/log(1-p)) 
-#' instead of rgeom() when TRUE. Default is TRUE.
+#' @param ... Optional parameters which are the same as `rgeom`
 #' @return A vector of length n with random numbers drawn from the geometric 
 #' distribution with probability p if success = FALSE, or modified geometric
 #' distribution as described above otherwise. 
@@ -125,16 +122,56 @@ rtetlg <- function(n_dist, rate = 1, ...) {
 #' 
 #' @examples 
 #' 
-#' sim_geom <- r_geom(n = 100, p = .5, success=TRUE)
+#' sim_geom <- r_geom(n = 100, p = .5)
+
+r_geom <- function(n, ...){ rgeom(n, ...) + 1 }
+
+#' Returns the distribution value at `x`
+#' 
+#' @param x number of trials to simulate
+#' @param ... Optional parameters which are the same as `dgeom`
+#' @return A vector of length n with random numbers drawn from the geometric 
+#' distribution with probability p if success = FALSE, or modified geometric
+#' distribution as described above otherwise. 
+#' @export
+#' 
+#' @examples 
+#' 
+#' dist_geom <- d_geom(4, )
+
+d_geom <- function(x, ...){ dgeom(x - 1, ...) }
+
+#' Simulate Geometric Distribution with Modified Probability of Success
+#' 
+#' @param q probability of the value `q`
+#' @param ... Optional parameters which are the same as `pgeom`
+#' @return A vector of length n with random numbers drawn from the geometric 
+#' distribution with probability p if success = FALSE, or modified geometric
+#' distribution as described above otherwise. 
+#' @export
+#' 
+#' @examples 
+#' 
+#' sim_geom <- p_geom(n = 100, p = .5)
+
+p_geom <- function(q, ...){ pgeom(q - 1, ...) }
+
+#' Simulate Geometric Distribution with Modified Probability of Success
+#' 
+#' @param p the 
+#' @param ... Optional parameters which are the same as `pgeom`
+#' @return A vector of length n with random numbers drawn from the geometric 
+#' distribution with probability p if success = FALSE, or modified geometric
+#' distribution as described above otherwise. 
+#' @export
+#' 
+#' @examples 
+#' 
+#' sim_geom <- q_geom(n = 100, p = .5)
+
+q_geom <- function(p, ...){ qgeom(p, ...) + 1 }
 
 
-r_geom <- function(n,p, success = TRUE) {
-  if (success) {
-    ceiling(log(runif(n))/log(1-p))
-  } else {
-    rgeom(n, prob = p)
-  }
-}
 
 #' @title Rate Maximum Likelihood Estimation (MLE) Function This function 
 #' calculates the MLE for the rate parameter of the MSTE-N 
