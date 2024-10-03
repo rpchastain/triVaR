@@ -127,7 +127,7 @@ rtetlg <- function(n_dist, rate = 1, ...) {
 #' 
 #' sim_geom <- r_geom(n = 100, p = .5, min_sample = 0)
 
-r_geom <- function(n, ...){ rgeom(n, ...) + 1  + min_sample}
+r_geom <- function(n, min_sample, ...){ rgeom(n, ...) + 1  + min_sample}
 
 #' Returns the distribution value at `x`
 #' 

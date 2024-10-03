@@ -4,17 +4,17 @@
 \alias{r_geom}
 \title{Simulate Geometric Distribution defined in n = 1, 2,...}
 \usage{
-r_geom(n, ...)
+r_geom(n, min_sample, ...)
 }
 \arguments{
 \item{n}{Number of trials to simulate}
 
+\item{min_sample}{Integer value to increase the simulated sample size to 
+match the duration of episodes with a minimum duration}
+
 \item{...}{Optional parameters which are the same as `rgeom`}
 
 \item{p}{Probability of success of one trial}
-
-\item{min_sample}{Integer value to increase the simulated sample size to 
-match the duration of episodes with a minimum duration}
 }
 \value{
 A vector of length n with random numbers drawn from the geometric 
