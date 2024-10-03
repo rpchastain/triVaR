@@ -113,7 +113,10 @@ rtetlg <- function(n_dist, rate = 1, ...) {
 
 #' Simulate Geometric Distribution defined in n = 1, 2,...
 #' 
-#' @param n number of trials to simulate
+#' @param n Number of trials to simulate
+#' @param p Probability of success of one trial
+#' @param min_sample Integer value to increase the simulated sample size to 
+#' match the duration of episodes with a minimum duration
 #' @param ... Optional parameters which are the same as `rgeom`
 #' @return A vector of length n with random numbers drawn from the geometric 
 #' distribution with probability p if success = FALSE, or modified geometric
@@ -122,9 +125,9 @@ rtetlg <- function(n_dist, rate = 1, ...) {
 #' 
 #' @examples 
 #' 
-#' sim_geom <- r_geom(n = 100, p = .5)
+#' sim_geom <- r_geom(n = 100, p = .5, min_sample = 0)
 
-r_geom <- function(n, ...){ rgeom(n, ...) + 1 }
+r_geom <- function(n, ...){ rgeom(n, ...) + 1  + min_sample}
 
 #' Returns the distribution value at `x`
 #' 

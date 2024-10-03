@@ -7,9 +7,14 @@
 r_geom(n, ...)
 }
 \arguments{
-\item{n}{number of trials to simulate}
+\item{n}{Number of trials to simulate}
 
 \item{...}{Optional parameters which are the same as `rgeom`}
+
+\item{p}{Probability of success of one trial}
+
+\item{min_sample}{Integer value to increase the simulated sample size to 
+match the duration of episodes with a minimum duration}
 }
 \value{
 A vector of length n with random numbers drawn from the geometric 
@@ -21,5 +26,5 @@ Simulate Geometric Distribution defined in n = 1, 2,...
 }
 \examples{
 
-sim_geom <- r_geom(n = 100, p = .5)
+sim_geom <- r_geom(n = 100, p = .5, min_sample = 0)
 }
