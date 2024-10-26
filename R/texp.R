@@ -114,8 +114,6 @@ rtetlg <- function(n_dist, rate = 1, ...) {
 #' Simulate Geometric Distribution defined in n = 1, 2,...
 #' 
 #' @param n Number of trials to simulate
-#' @param p Probability of success of one trial
-#' @param min_sample Integer value to increase the simulated sample size to 
 #' match the duration of episodes with a minimum duration
 #' @param ... Optional parameters which are the same as `rgeom`
 #' @return A vector of length n with random numbers drawn from the geometric 
@@ -125,9 +123,9 @@ rtetlg <- function(n_dist, rate = 1, ...) {
 #' 
 #' @examples 
 #' 
-#' sim_geom <- r_geom(n = 100, p = .5, min_sample = 0)
+#' sim_geom <- r_geom(n = 100, p = .5)
 
-r_geom <- function(n, min_sample = 0, ...){ rgeom(n, ...) + 1  + min_sample}
+r_geom <- function(n, ...){ rgeom(n, ...) + 1}
 
 #' Returns the distribution value at `x`
 #' 
@@ -140,7 +138,7 @@ r_geom <- function(n, min_sample = 0, ...){ rgeom(n, ...) + 1  + min_sample}
 #' 
 #' @examples 
 #' 
-#' dist_geom <- d_geom(4, )
+#' dist_geom <- d_geom(4, prob = 0.25)
 
 d_geom <- function(x, ...){ dgeom(x - 1, ...) }
 
@@ -155,7 +153,7 @@ d_geom <- function(x, ...){ dgeom(x - 1, ...) }
 #' 
 #' @examples 
 #' 
-#' sim_geom <- p_geom(n = 100, p = .5)
+#' sim_geom <- p_geom(q = 0.75, p = .5)
 
 p_geom <- function(q, ...){ pgeom(q - 1, ...) }
 
@@ -170,10 +168,9 @@ p_geom <- function(q, ...){ pgeom(q - 1, ...) }
 #' 
 #' @examples 
 #' 
-#' sim_geom <- q_geom(n = 100, p = .5)
+#' sim_geom <- q_geom(p = 0.25, prob = 0.25)
 
 q_geom <- function(p, ...){ qgeom(p, ...) + 1 }
-
 
 
 #' @title Rate Maximum Likelihood Estimation (MLE) Function This function 

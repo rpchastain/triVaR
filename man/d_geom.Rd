@@ -21,5 +21,5 @@ Returns the distribution value at `x`
 }
 \examples{
 
-dist_geom <- d_geom(4, )
+dist_geom <- d_geom(4, prob = 0.25)
 }

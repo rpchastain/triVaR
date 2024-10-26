@@ -21,5 +21,5 @@ Simulate Geometric Distribution with Modified Probability of Success
 }
 \examples{
 
-sim_geom <- q_geom(n = 100, p = .5)
+sim_geom <- q_geom(p = 0.25, prob = 0.25)
 }
