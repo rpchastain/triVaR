@@ -33,6 +33,10 @@ inv_texp <- function(x, rate = 1, a = 0, b) {
 #' rtexp(5, b = 6)
 #' rtexp(2, rate = -1, a = 2, b = 6)
 rtexp <- function(n, rate = 1, a = 0, b) {
+  if (rate == 0) {
+    runif(n, max = delta)
+  }
+  
   u <- runif(n)
   inv_texp(u, rate, a, b)
 }
