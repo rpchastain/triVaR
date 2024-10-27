@@ -35,10 +35,10 @@ inv_texp <- function(x, rate = 1, a = 0, b) {
 rtexp <- function(n, rate = 1, a = 0, b) {
   if (rate == 0) {
     runif(n, max = b)
+  } else {
+    u <- runif(n)
+    inv_texp(u, rate, a, b)
   }
-
-  u <- runif(n)
-  inv_texp(u, rate, a, b)
 }
 
 
